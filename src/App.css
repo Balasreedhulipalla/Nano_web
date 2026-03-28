@@ -1,0 +1,89 @@
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+}
+
+.screen {
+  flex: 1;
+  padding: 16px 24px;
+  max-width: 500px; /* Closer to mobile aspect ratio */
+  margin: 0 auto;
+  width: 100%;
+}
+
+.card {
+  background: var(--surface-color);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Elevation 2dp equivalent */
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.stat-card {
+  border-radius: 20px;
+  padding: 16px;
+  background: var(--surface-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.btn {
+  border-radius: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  height: 56px;
+  width: 100%;
+  font-size: 18px;
+}
+
+.btn-primary {
+  background: linear-gradient(to right, var(--button-start), var(--button-end));
+  color: white;
+}
+
+.btn-secondary {
+  background: white;
+  color: var(--text-primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.input-field {
+  width: 100%;
+  height: 52px;
+  background: #F1F5F9;
+  border-radius: 12px;
+  border: none;
+  padding: 0 16px;
+  font-size: 16px;
+  color: var(--text-primary);
+  outline: none;
+  margin-bottom: 16px;
+}
+
+.dashboard-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.text-secondary { color: var(--text-secondary); }
+.text-bold { font-weight: 700; }
+.text-primary { color: var(--primary-blue); }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
