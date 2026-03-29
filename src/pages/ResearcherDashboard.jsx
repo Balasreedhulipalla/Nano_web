@@ -3,6 +3,7 @@ import {
   Folder, CheckCircle, Timer, Upload, 
   BrainCircuit, Bell, ChevronRight 
 } from 'lucide-react';
+import { getUserInfo } from '../api';
 
 const StatCard = ({ icon: Icon, iconColor, value, label }) => (
   <div className="stat-card" style={{ flex: 1 }}>
@@ -39,12 +40,14 @@ const ActionCard = ({ title, subtitle, icon: Icon, iconBgColor, onClick }) => (
 
 const ResearcherDashboard = () => {
   const navigate = useNavigate();
+  const userInfo = getUserInfo();
+  const userName = userInfo.full_name || userInfo.email?.split('@')[0] || 'Researcher';
 
   return (
     <div className="screen">
       <header style={{ marginBottom: '32px' }}>
         <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#0F172A', margin: '0 0 8px 0' }}>
-          Welcome back, Dr. Smith
+          Welcome back, {userName}
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '16px', lineHeight: '22px', margin: 0 }}>
           Your research command center for intelligent nanoparticle analysis

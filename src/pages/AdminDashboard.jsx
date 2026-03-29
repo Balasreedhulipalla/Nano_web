@@ -5,7 +5,7 @@ import {
   BrainCircuit, Bell, ChevronRight,
   TrendingUp, Clock
 } from 'lucide-react';
-import { getAdminDashboard } from '../api';
+import { getAdminDashboard, getUserInfo } from '../api';
 
 const AdminStatCard = ({ icon: Icon, iconColor, value, label, badgeText }) => (
   <div className="card" style={{ flex: 1, height: '140px', display: 'flex', flexDirection: 'column' }}>
@@ -105,6 +105,8 @@ const ActivityItem = ({ name, action, time, initials, color, isLast }) => (
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [userCount, setUserCount] = useState('--');
+  const userInfo = getUserInfo();
+  const userName = userInfo.full_name || userInfo.email?.split('@')[0] || 'Administrator';
 
   useEffect(() => {
     getAdminDashboard()
@@ -118,10 +120,10 @@ const AdminDashboard = () => {
     <div className="screen">
       <header style={{ marginBottom: '32px' }}>
         <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1E293B', margin: '0 0 4px 0' }}>
-          Welcome Back!
+          Welcome back, {userName}!
         </h1>
         <p style={{ fontSize: '16px', fontWeight: 500, color: '#64748B', margin: 0 }}>
-          Administrator
+          {userInfo.role === 'super_admin' ? 'Super Administrator' : 'Administrator'}
         </p>
         <p style={{ fontSize: '14px', color: '#94A3B8', margin: '2px 0 0 0' }}>
           Ready to analyze nanoparticle resistance patterns
