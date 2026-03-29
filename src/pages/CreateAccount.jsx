@@ -10,6 +10,7 @@ const CreateAccount = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -131,7 +132,7 @@ const CreateAccount = () => {
               onClick={() => setShowPassword(!showPassword)}
               style={{ position: 'absolute', right: '16px', top: '16px', background: 'none', border: 'none', cursor: 'pointer' }}
             >
-              <Info size={20} color="var(--text-secondary)" />
+              {showPassword ? <EyeOff size={20} color="var(--text-secondary)" /> : <Eye size={20} color="var(--text-secondary)" />}
             </button>
           </div>
 
@@ -142,17 +143,17 @@ const CreateAccount = () => {
             />
             <input 
               className="input-field" 
-              type={showPassword ? 'text' : 'password'} 
+              type={showConfirmPassword ? 'text' : 'password'} 
               placeholder="Confirm password" 
               style={{ paddingLeft: '48px', border: '1px solid #e2e8f0', background: 'white' }}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
             <button 
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               style={{ position: 'absolute', right: '16px', top: '16px', background: 'none', border: 'none', cursor: 'pointer' }}
             >
-              <Info size={20} color="var(--text-secondary)" />
+              {showConfirmPassword ? <EyeOff size={20} color="var(--text-secondary)" /> : <Eye size={20} color="var(--text-secondary)" />}
             </button>
           </div>
         </div>

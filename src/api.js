@@ -97,7 +97,7 @@ export async function login(email, password) {
   const data = await res.json();
   if (!res.ok) throw data;
   saveTokens(data.access, data.refresh);
-  saveUserInfo({ email, role: data.role });
+  saveUserInfo({ email, role: data.role || 'user' });
   return data;
 }
 

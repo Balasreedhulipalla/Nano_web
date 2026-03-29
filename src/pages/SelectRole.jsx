@@ -43,6 +43,7 @@ const SelectRole = ({ onRoleSelect }) => {
 
   const handleEnterDashboard = () => {
     if (selectedRole) {
+      localStorage.setItem('user_role', selectedRole);
       onRoleSelect(selectedRole);
       navigate(selectedRole === 'Admin' ? '/admin-dashboard' : '/researcher-dashboard');
     }
