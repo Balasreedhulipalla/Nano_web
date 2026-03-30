@@ -1,6 +1,6 @@
 // ========================================
 // Central API Service for Nano Meta Tool
-// Django backend runs on http://localhost:8000
+// Django backend runs on http://180.235.121.253:8109
 // ========================================
 
 const BASE_URL = 'http://180.235.121.253:8109';

@@ -30,80 +30,71 @@ import ChangePassword from './pages/ChangePassword'
 
 const DashboardShell = ({ children, userRole, currentRoute }) => {
   const navigate = useNavigate();
-  // detect role from localStorage so it survives page refresh
   const role = localStorage.getItem('user_role') || userRole || 'user';
   const isAdmin = role === 'admin' || role === 'super_admin' || role === 'Admin';
+  
   const menuItems = isAdmin ? [
-    { title: 'Dashboard', route: '/admin-dashboard', icon: Home },
-    { title: 'Projects', route: '/project-management', icon: CheckSquare },
+    { title: 'Dashboard', route: '/admin-dashboard', icon: LayoutDashboard },
+    { title: 'User Management', route: '/user-management', icon: User },
+    { title: 'Project Management', route: '/project-management', icon: CheckSquare },
+    { title: 'System Analytics', route: '/system-analytics', icon: BarChart3 },
+    { title: 'Data Export', route: '/data-export', icon: Download },
     { title: 'Notifications', route: '/notifications', icon: Bell },
-    { title: 'Profile', route: '/profile', icon: User }
+    { title: 'Profile', route: '/profile', icon: User },
+    { title: 'Settings', route: '/change-password', icon: Settings },
   ] : [
-    { title: 'Home', route: '/researcher-dashboard', icon: Home },
-    { title: 'Search', route: '/search', icon: SearchIcon },
-    { title: 'Reports', route: '/full-report', icon: FileText },
-    { title: 'Profile', route: '/profile', icon: User }
+    { title: 'Dashboard', route: '/researcher-dashboard', icon: LayoutDashboard },
+    { title: 'Appointments', route: '/screening', icon: CheckSquare }, // Using existing routes
+    { title: 'Daily Tasks', route: '/meta-analysis', icon: CheckSquare },
+    { title: 'Reminders', route: '/notifications', icon: Bell },
+    { title: 'Health Screening', route: '/screening', icon: BarChart },
+    { title: 'Profile', route: '/profile', icon: User },
+    { title: 'Prosthesis Details', route: '/full-report', icon: Database },
+    { title: 'Education & Info', route: '/search', icon: SearchIcon },
   ];
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_role');
+    navigate('/login');
+  };
+
   return (
-    <div className="app-container">
-      <main className="screen" style={{ paddingBottom: '100px' }}>
+    <div className="layout-container">
+      <aside className="sidebar">
+        <div className="sidebar-logo">
+          <span className="logo-text">Reports</span>
+        </div>
+        
+        <nav className="sidebar-nav">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = currentRoute === item.route;
+            const title = item.title === 'Prosthesis Details' ? 'Reports' : item.title;
+            return (
+              <button 
+                key={item.route} 
+                className={`sidebar-item ${isActive ? 'active' : ''}`}
+                onClick={() => navigate(item.route)}
+              >
+                <Icon size={20} />
+                <span>{title}</span>
+              </button>
+            )
+          })}
+        </nav>
+
+        <div className="sidebar-footer">
+          <button className="logout-btn" onClick={handleLogout}>
+            <LogOut size={20} />
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+      
+      <main className="main-content">
         {children}
       </main>
-      
-      <nav className="bottom-nav">
-        {menuItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = currentRoute === item.route;
-          return (
-            <button 
-              key={item.route} 
-              className={`nav-item ${isActive ? 'active' : ''}`}
-              onClick={() => navigate(item.route)}
-            >
-              <Icon size={24} />
-              <span>{item.title}</span>
-            </button>
-          )
-        })}
-      </nav>
-      
-      <style>{`
-        .bottom-nav {
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background: #ffffff;
-          display: flex;
-          justify-content: space-around;
-          padding: 8px 0;
-          border-top: 1px solid #E2E8F0;
-          z-index: 1000;
-          box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
-        }
-        
-        .nav-item {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 4px;
-          background: none;
-          border: none;
-          color: #64748B;
-          font-size: 12px;
-          font-weight: 500;
-          cursor: pointer;
-          transition: all 0.2s;
-          padding: 8px 12px;
-          flex: 1;
-        }
-        
-        .nav-item.active {
-          color: #2563EB;
-          font-weight: 700;
-        }
-      `}</style>
     </div>
   )
 }
@@ -115,7 +106,8 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Welcome />} />
+      <Route path="/" element={<Login onLogin={(role) => setUserRole(role)} />} />
+      <Route path="/welcome" element={<Welcome />} />
       <Route path="/login" element={<Login onLogin={(role) => setUserRole(role)} />} />
       <Route path="/create-account" element={<CreateAccount />} />
       <Route path="/select-role" element={<SelectRole onRoleSelect={(role) => setUserRole(role)} />} />

@@ -1,113 +1,107 @@
 import { useNavigate } from 'react-router-dom';
 import { 
-  Folder, CheckCircle, Timer, Upload, 
-  BrainCircuit, Bell, ChevronRight 
+  Activity, CheckSquare, Clock, CheckCircle, 
+  Calendar, ChevronRight, ArrowRight 
 } from 'lucide-react';
 import { getUserInfo } from '../api';
-
-const StatCard = ({ icon: Icon, iconColor, value, label }) => (
-  <div className="stat-card" style={{ flex: 1 }}>
-    <Icon size={24} style={{ color: iconColor }} />
-    <div style={{ height: '12px' }} />
-    <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-      <span style={{ fontSize: '32px', fontWeight: 700, color: 'var(--text-primary)' }}>{value}</span>
-    </div>
-    <span style={{ fontSize: '14px', color: 'var(--text-secondary)', fontWeight: 500 }}>{label}</span>
-  </div>
-);
-
-const ActionCard = ({ title, subtitle, icon: Icon, iconBgColor, onClick }) => (
-  <div className="card" onClick={onClick} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-    <div style={{ 
-      width: '52px', 
-      height: '52px', 
-      borderRadius: '12px', 
-      background: iconBgColor, 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center',
-      flexShrink: 0
-    }}>
-      <Icon size={28} color="white" />
-    </div>
-    <div style={{ width: '16px' }} />
-    <div style={{ flex: 1 }}>
-      <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>{title}</h3>
-      <p style={{ fontSize: '14px', color: 'var(--text-secondary)', margin: 0 }}>{subtitle}</p>
-    </div>
-  </div>
-);
 
 const ResearcherDashboard = () => {
   const navigate = useNavigate();
   const userInfo = getUserInfo();
-  const userName = userInfo.full_name || userInfo.email?.split('@')[0] || 'Researcher';
+  const userName = (userInfo.full_name || userInfo.email?.split('@')[0] || 'keerthana').toLowerCase();
+
+  const metrics = [
+    { 
+      label: 'Compliance Score', 
+      value: '100%', 
+      icon: Activity, 
+      color: '#10B981', 
+      bgColor: '#ECFDF5' 
+    },
+    { 
+      label: 'Tasks Completed', 
+      value: '4', 
+      icon: CheckSquare, 
+      color: '#2563EB', 
+      bgColor: '#EFF6FF' 
+    },
+    { 
+      label: 'Tasks Missed', 
+      value: '0', 
+      icon: Clock, 
+      color: '#F59E0B', 
+      bgColor: '#FFFBEB' 
+    }
+  ];
+
+  const dailyTasks = [
+    { title: 'Remove and rinse prosthesis', completed: true },
+    { title: 'Brush prosthesis gently', completed: true },
+    { title: 'Clean mouth and gums', completed: true },
+    { title: 'Soak in cleaning solution', completed: true },
+  ];
 
   return (
-    <div className="screen">
-      <header style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#0F172A', margin: '0 0 8px 0' }}>
-          Welcome back, {userName}
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '16px', lineHeight: '22px', margin: 0 }}>
-          Your research command center for intelligent nanoparticle analysis
-        </p>
+    <div className="fade-in">
+      <header className="header">
+        <div>
+          <h1 className="welcome-title">Welcome back, {userName}!</h1>
+          <p className="sub-header">Here is your daily overview</p>
+        </div>
+        <div className="date-text">
+          {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+        </div>
       </header>
 
-      {/* Summary Stats Grid */}
-      <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
-        <StatCard 
-          icon={Folder} 
-          iconColor="#0D9488" 
-          value="24" 
-          label="Total Datasets" 
-        />
-        <StatCard 
-          icon={CheckCircle} 
-          iconColor="#0D9488" 
-          value="156" 
-          label="Completed Screenings" 
-        />
-      </div>
-      <div style={{ display: 'flex', width: 'calc(50% - 8px)', marginBottom: '32px' }}>
-        <StatCard 
-          icon={Timer} 
-          iconColor="#0D9488" 
-          value="342" 
-          label="Hours Saved" 
-        />
+      <div className="stats-grid">
+        {metrics.map((metric, idx) => (
+          <div key={idx} className="metric-card">
+            <div className="icon-box" style={{ backgroundColor: metric.bgColor }}>
+              <metric.icon size={24} color={metric.color} />
+            </div>
+            <div className="metric-info">
+              <span className="metric-label">{metric.label}</span>
+              <span className="metric-value">{metric.value}</span>
+            </div>
+          </div>
+        ))}
       </div>
 
-      {/* Quick Actions */}
-      <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#0F172A', marginBottom: '16px' }}>
-        Quick Actions
-      </h2>
+      <div className="dashboard-sections">
+        <div className="section-card">
+          <div className="section-header">
+            <h2 className="section-title">Pending Daily Tasks (0)</h2>
+          </div>
+          <div className="section-content">
+            {dailyTasks.map((task, idx) => (
+              <div key={idx} className="task-item completed">
+                <CheckCircle size={20} color="#10B981" />
+                <span>{task.title}</span>
+              </div>
+            ))}
+          </div>
+          <a href="#" className="view-all" onClick={(e) => { e.preventDefault(); navigate('/meta-analysis'); }}>
+            View All Tasks <ArrowRight size={14} style={{ marginLeft: '4px' }} />
+          </a>
+        </div>
 
-      <div className="dashboard-grid">
-        <ActionCard 
-          title="New Dataset Screening" 
-          subtitle="Upload and screen research data" 
-          icon={Upload} 
-          iconBgColor="var(--primary-blue)" 
-          onClick={() => navigate('/screening')} 
-        />
-        <ActionCard 
-          title="Meta-Analysis" 
-          subtitle="Run intelligent analysis" 
-          icon={BrainCircuit} 
-          iconBgColor="#0D9488" 
-          onClick={() => navigate('/meta-analysis')} 
-        />
-        <ActionCard 
-          title="Research Alerts" 
-          subtitle="View notifications" 
-          icon={Bell} 
-          iconBgColor="#9333EA" 
-          onClick={() => navigate('/research-alerts')} 
-        />
+        <div className="section-card">
+          <div className="section-header">
+            <h2 className="section-title">Next Appointment</h2>
+          </div>
+          <div className="section-content">
+            <div className="empty-state">
+              <div className="empty-icon">
+                <Calendar size={64} strokeWidth={1} />
+              </div>
+              <p className="empty-text">No upcoming appointments found.</p>
+              <button className="primary-btn" onClick={() => navigate('/screening')}>
+                Schedule One
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div style={{ height: '40px' }} />
     </div>
   );
 };

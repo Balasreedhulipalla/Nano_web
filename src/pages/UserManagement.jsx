@@ -92,22 +92,22 @@ const UserManagement = () => {
   };
 
   return (
-    <div className="app-container" style={{ background: '#F8FAFC' }}>
-      <div className="screen" style={{ padding: '0 0 100px 0' }}>
+    <div className="fade-in">
+      <div className="screen">
         {/* Header */}
-        <div style={{ background: '#F8FAFC', padding: '16px', display: 'flex', alignItems: 'center' }}>
-          <button onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', padding: '8px', cursor: 'pointer' }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '32px' }}>
+          <button onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', padding: '8px', cursor: 'pointer', marginRight: '12px' }}>
             <ArrowLeft size={24} color="#1E293B" />
           </button>
-          <div style={{ marginLeft: '12px' }}>
-            <h1 style={{ fontSize: '20px', fontWeight: 700, color: '#1E293B', margin: 0 }}>User Management</h1>
-            <p style={{ fontSize: '12px', color: '#64748B', margin: 0 }}>
+          <div>
+            <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1E293B', margin: 0 }}>User Management</h1>
+            <p style={{ fontSize: '14px', color: '#64748B', margin: 0 }}>
               {loading ? 'Loading...' : `${users.length} total users`}
             </p>
           </div>
         </div>
 
-        <div style={{ padding: '16px' }}>
+        <div>
           {/* Search Bar */}
           <div style={{ position: 'relative', marginBottom: '20px' }}>
             <Search size={20} style={{ position: 'absolute', left: '16px', top: '16px', color: '#94A3B8' }} />
@@ -116,7 +116,7 @@ const UserManagement = () => {
               placeholder="Search users..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ paddingLeft: '48px', background: 'white', border: '1px solid #E2E8F0' }}
+              style={{ paddingLeft: '48px', background: 'white', border: '1px solid #E2E8F0', marginBottom: 0 }}
             />
           </div>
 
@@ -125,7 +125,7 @@ const UserManagement = () => {
             onClick={() => setShowAddDialog(true)}
             style={{ 
               width: '100%', height: '56px', borderRadius: '12px', 
-              background: 'linear-gradient(to right, #8B5CF6, #3B82F6)',
+              background: 'linear-gradient(to right, #2563EB, #3B82F6)',
               border: 'none', color: 'white', fontWeight: 700, fontSize: '16px',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
               cursor: 'pointer', marginBottom: '24px'
